@@ -1,8 +1,8 @@
 
 const express= require("express")
-
+const {v4: uuidv4} = require("uuid")
 const fs=require("fs")
-
+const { validate } = require('express-validation');
 const app=express()
 
 app.use(express.urlencoded({extended:true}))
@@ -51,7 +51,23 @@ fs.readFile("./db.json",{encoding:"utf-8"},(err,data)=>{
 
 })
 
+app.post("/user/login",validate(loggerValidation, {}, {}),(req,res)=>{
+    
+    const token = uuidv4();
+    fs.readFile("./db.json","utf-8",(err,data)=>{
+        const parsed = JSON.parse(data);
+        parsed.users.map((el)=>{
+            if(el.username==req.body.username && el.password==req.body.password){
+                el.token=token;
+            }
+        })
+        parsed.users = [...parsed.users];
 
+        fs.writeFile("./db.json",JSON.stringify(parsed),{encoding:"utf-8"},()=>{
+            res.status(201).send("Login successfull");
+        })
+    })
+})
 
 app.listen(8080,()=>{
     console.log("started")
