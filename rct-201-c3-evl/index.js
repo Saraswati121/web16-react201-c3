@@ -51,17 +51,17 @@ fs.readFile("./db.json",{encoding:"utf-8"},(err,data)=>{
 
 })
 
-app.post("/user/login",validate(loggerValidation, {}, {}),(req,res)=>{
+app.post("/user/login",validate(x, {}, {}),(req,res)=>{
     
     const token = uuidv4();
     fs.readFile("./db.json","utf-8",(err,data)=>{
         const parsed = JSON.parse(data);
-        parsed.users.map((el)=>{
+        parsed.list.map((el)=>{
             if(el.username==req.body.username && el.password==req.body.password){
                 el.token=token;
             }
         })
-        parsed.users = [...parsed.users];
+        parsed.list = [...parsed.list];
 
         fs.writeFile("./db.json",JSON.stringify(parsed),{encoding:"utf-8"},()=>{
             res.status(201).send("Login successfull");
