@@ -1,0 +1,6 @@
+{"list":[
+    {"id":1,"name":"john","age":15, "role": "voter","username": "john","password": "1234"},
+    {"id":2,"name":"Donald Trump","age":55,"role": "candidate","votes":0,"party":"democrats"},
+    {"id":3,"name":"John Doe","age":55, "role": "voter","username":"john","password":"12345"}
+    ]
+}
